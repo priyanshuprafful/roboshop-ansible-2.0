@@ -1,0 +1,13 @@
+- name: Setup Catalogue Component
+  hosts: all
+  become: yes
+  vars:
+    component: catalogue
+  tasks:
+    - name: Load NODEJS
+      ansible.builtin.include_tasks:
+        file: nodejs.yml
+
+    - name: Load MongoDB schema
+      ansible.builtin.include_tasks:
+        file:
