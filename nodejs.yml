@@ -1,16 +1,10 @@
-    - name: Disable nodejs module
-      dnf:
-        name: nodejs
-        state: removed
-        module: yes
+- name: Disable the nodejs module
+  command: dnf module disable nodejs -y
 
-    - name: Enable the nodejs:18 module
-      dnf:
-        name: nodejs:18
-        state: present
-        module: yes
+- name: Enable the nodejs:18 module
+  command: dnf module enable nodejs:18 -y
 
-    - name: Install Node.js
-      dnf:
-        name: nodejs
-        state: present
+- name: Install Node.js package
+  dnf:
+    name: nodejs
+    state: present
