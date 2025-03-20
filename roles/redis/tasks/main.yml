@@ -9,15 +9,10 @@
 #    state: present
 #
 
-- name: Install Remi repository
-  dnf:
-    name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
-    state: present
-
 - name: Enable Redis module for version 6
   dnf:
-    name: redis:remi-6.0
-    state: present
+    name: redis:6
+    state: enabled
 
 - name: Modify redis configuration
   ansible.builtin.replace:
