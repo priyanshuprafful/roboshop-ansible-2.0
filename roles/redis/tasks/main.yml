@@ -6,8 +6,6 @@
     name: redis
     state: present
 
-
-
 - name: Modify redis configuration
   ansible.builtin.replace:
     path: /etc/redis.conf
