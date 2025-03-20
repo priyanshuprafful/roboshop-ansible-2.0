@@ -20,7 +20,7 @@
     state: present
 
 - name: App pre-requisites
-  ansible.builtin.import_taks:
+  ansible.builtin.import_tasks:
     file: app_presetup.yml
 
 - name: Download Additional Requirements
@@ -29,5 +29,5 @@
     args: /app
 
 - name: SystemD setup
-  ansible.builtin.import_taks:
+  ansible.builtin.import_tasks:
     file: systemd_setup.yml
