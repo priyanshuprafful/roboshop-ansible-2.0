@@ -22,8 +22,8 @@
 
 ---
 - name: Install and configure RabbitMQ server
-  hosts: your_hosts
-  become: yes
+  
+
   tasks:
     - name: Add Erlang repository
       shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash
