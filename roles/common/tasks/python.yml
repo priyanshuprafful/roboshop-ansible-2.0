@@ -1,0 +1,33 @@
+#  python() {
+#    echo -e "${color}Install Python 3.6 ${nocolor}"
+#    dnf install python36 gcc python3-devel -y &>>${log_file}
+#    status_check $?
+#
+#    app_presetup
+#
+#    echo -e "${color}Installing Application Dependencies${nocolor}"
+#    cd /app
+#    pip3.6 install -r requirements.txt &>>${log_file}
+#    status_check $?
+#
+#
+#    systemd_setup
+#  }
+
+- name: Install Python 3.6
+  dnf:
+    name: python36 gcc python3-devel
+    state: present
+
+- name: App pre-requisites
+  ansible.builtin.import_taks:
+    file: app_presetup.yml
+
+- name: Download Additional Requirements
+  command: pip3.6 install -r requirements.txt
+  chdir:
+    args: /app
+
+- name: SystemD setup
+  ansible.builtin.import_taks:
+    file: systemd_setup.yml
