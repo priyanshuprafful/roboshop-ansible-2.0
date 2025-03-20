@@ -16,7 +16,7 @@
 
 - name: Install Python 3.6
   dnf:
-    name: python36 gcc python3-devel
+    name: python36,gcc,python3-devel
     state: present
 
 - name: App pre-requisites
