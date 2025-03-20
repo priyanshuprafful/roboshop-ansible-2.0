@@ -1,28 +1,22 @@
-#- name: Install Remi repository
-#  dnf:
-#    name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
-#    state: present
-#
-#- name: Enable Redis Module for version 6
-#  dnf:
-#    name: redis:remi-6.0
-#    state: present
-#
-
 - name: Enable Redis module for version 6
-  dnf:
-    name: redis:6
-    state: enabled
+  command: dnf module enable redis:6 -y
 
-#- name: Modify redis configuration
-#  ansible.builtin.replace:
-#    path: /etc/redis.conf
-#    regexp: '127.0.0.1'
-#    replace: '0.0.0.0'
-#
-#- name: Start Redis Service
-#  ansible.builtin.systemd:
-#    state: restarted
-#    name: redis
-#    enabled: true
+- name: Install Redis 6
+  dnf:
+    name: redis
+    state: present
+
+
+
+- name: Modify redis configuration
+  ansible.builtin.replace:
+    path: /etc/redis.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+- name: Start Redis Service
+  ansible.builtin.systemd:
+    state: restarted
+    name: redis
+    enabled: true
 
