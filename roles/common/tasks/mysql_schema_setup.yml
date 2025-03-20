@@ -1,0 +1,13 @@
+- name: Copy MySQL repo File
+  ansible.builtin.copy:
+    src: mysql.repo
+    dest: /etc/yum.repos.d/mongodb.repo
+
+- name: Install MySQL client
+  dnf:
+    name: mysql
+    state: present
+
+- name: Load Schema
+  ansible.builtin.shell: mysql -h mysql-dev.saraldevops.site -uroot -pRoboShop@1 < /app/schema/{{ component }}.sql
+
