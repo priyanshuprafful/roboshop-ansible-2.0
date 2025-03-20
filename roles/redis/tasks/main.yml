@@ -1,6 +1,6 @@
 - name: Enable Redis Module for version 6
   dnf:
-    name: redis:remi-6
+    name: redis:remi-6.0
     state: present
 
 
