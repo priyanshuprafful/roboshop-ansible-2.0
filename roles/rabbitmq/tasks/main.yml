@@ -20,11 +20,7 @@
 #rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>>/tmp/roboshop.log
 #status_check $?
 
----
-- name: Install and configure RabbitMQ server
-  
 
-  tasks:
     - name: Add Erlang repository
       shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash
       args:
