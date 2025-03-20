@@ -1,9 +1,54 @@
-- name: Load NodeJS
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: nodejs
+#echo -e "${color}Configure Erlang Repos${nocolor}"
+#curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>/tmp/roboshop.log
+#status_check $?
+#
+#echo -e "${color}Configure RabbitMQ repos${nocolor}"
+#curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>/tmp/roboshop.log
+#status_check $?
+#
+#echo -e "${color}Installing RabbitMQ server${nocolor}"
+#dnf install rabbitmq-server -y &>>/tmp/roboshop.log
+#status_check $?
+#
+#echo -e "${color}Start RabbitMQ service${nocolor}"
+#systemctl enable rabbitmq-server &>>/tmp/roboshop.log
+#systemctl start rabbitmq-server &>>/tmp/roboshop.log
+#status_check $?
+#
+#echo -e "${color}Add rabbitmq application user ${nocolor}"
+#rabbitmqctl add_user roboshop $1 &>>/tmp/roboshop.log
+#rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>>/tmp/roboshop.log
+#status_check $?
 
-- name: Load Schema Setup
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: mongo_schema_setup
+---
+- name: Install and configure RabbitMQ server
+  hosts: your_hosts
+  become: yes
+  tasks:
+    - name: Add Erlang repository
+      shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash
+      args:
+        creates: /etc/yum.repos.d/rabbitmq_erlang.repo
+
+    - name: Add RabbitMQ repository
+      shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash
+      args:
+        creates: /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo
+
+    - name: Install rabbitmq-server
+      dnf:
+        name: rabbitmq-server
+        state: present
+
+    - name: Enable rabbitmq-server service
+      systemd:
+        name: rabbitmq-server
+        enabled: yes
+        state: started
+
+    - name: Add RabbitMQ user 'roboshop'
+      command: rabbitmqctl add_user roboshop
+
+    - name: Set permissions for 'roboshop' user
+      command: rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+
