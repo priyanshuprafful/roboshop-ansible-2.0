@@ -21,6 +21,36 @@
 #status_check $?
 
 
+#    - name: Add Erlang repository
+#      shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash
+#      args:
+#        creates: /etc/yum.repos.d/rabbitmq_erlang.repo
+#
+#    - name: Add RabbitMQ repository
+#      shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash
+#      args:
+#        creates: /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo
+#
+#    - name: Install rabbitmq-server
+#      dnf:
+#        name: rabbitmq-server
+#        state: present
+#
+#    - name: Enable rabbitmq-server service
+#      systemd:
+#        name: rabbitmq-server
+#        enabled: yes
+#        state: started
+#
+#    - name: Add RabbitMQ user 'roboshop'
+#      command: rabbitmqctl add_user roboshop
+#
+#    - name: Set permissions for 'roboshop' user
+#      command: rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+#
+
+---
+
     - name: Add Erlang repository
       shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash
       args:
@@ -36,15 +66,27 @@
         name: rabbitmq-server
         state: present
 
-    - name: Enable rabbitmq-server service
+    - name: Enable and start rabbitmq-server service
       systemd:
         name: rabbitmq-server
         enabled: yes
         state: started
+      register: rabbitmq_service_status
+      # Wait until RabbitMQ service is fully started
+      retries: 5
+      delay: 10
+      until: rabbitmq_service_status.status.running
 
     - name: Add RabbitMQ user 'roboshop'
       command: rabbitmqctl add_user roboshop
+      register: rabbitmq_add_user
+      retries: 3
+      delay: 5
+      until: rabbitmq_add_user.rc == 0
 
     - name: Set permissions for 'roboshop' user
       command: rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+      retries: 3
+      delay: 5
+      until: ansible_facts.services.rabbitmq_server.state == 'started'
 
