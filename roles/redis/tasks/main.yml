@@ -1,3 +1,8 @@
+- name: Install Remi repository
+  dnf:
+    name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+    state: present
+
 - name: Enable Redis Module for version 6
   dnf:
     name: redis:remi-6.0
