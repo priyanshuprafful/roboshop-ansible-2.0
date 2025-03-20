@@ -1,8 +1,8 @@
 - name: Enable Redis Module for version 6
   dnf:
-    name: redis:6
+    name: redis:remi-6.2
     state: present
-    enablerepo: redis:6
+    
 
 - name: Install Redis
   dnf:
