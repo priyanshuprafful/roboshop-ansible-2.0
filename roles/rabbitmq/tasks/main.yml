@@ -1,12 +1,10 @@
-    - name: Add Erlang repository
-      shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash
+    - name: Add Erlang and RabbitMQ repository
+      shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/{{ item }}/script.rpm.sh | bash
       args:
-        creates: /etc/yum.repos.d/rabbitmq_erlang.repo
-
-    - name: Add RabbitMQ repository
-      shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash
-      args:
-        creates: /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo
+        creates: /etc/yum.repos.d/{{ item }}.repo
+      loop:
+        - erlang
+        - rabbitmq-server
 
     - name: Install rabbitmq-server
       dnf:
