@@ -18,6 +18,11 @@
   args:
     chdir: /app
 
+- name: Load Schema
+  ansible.builtin.import_tasks:
+    file: mongo_schema_setup.yml
+  when: load_schema    # for cart it will not run as it is false
+
 - name: SystemD setup
   ansible.builtin.import_tasks:
     file: systemd_setup.yml
