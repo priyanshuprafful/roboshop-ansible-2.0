@@ -9,4 +9,4 @@
     state: present
 
 - name: Load Schema
-  ansible.builtin.shell: mongo --host mongodb-dev.saraldevops.site </app/schema/{{ component }}.js
+  ansible.builtin.shell: mongo --host mongodb-dev.devopspro.fun </app/schema/{{ component }}.js
