@@ -1,0 +1,28 @@
+- name: Disable the nodejs module
+  command: dnf module disable nodejs -y
+
+- name: Enable the nodejs:18 module
+  command: dnf module enable nodejs:18 -y
+
+- name: Install Node.js package
+  dnf:
+    name: nodejs
+    state: present
+
+- name: App Pre-requisites
+  ansible.builtin.import_tasks:
+    file: app_presetup.yml
+
+- name: Load NodeJS Dependencies
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+- name: Load Schema
+  ansible.builtin.import_tasks:
+    file: mongo_schema_setup.yml
+  when: load_schema    # for cart it will not run as it is false
+
+- name: SystemD setup
+  ansible.builtin.import_tasks:
+    file: systemd_setup.yml
