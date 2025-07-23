@@ -1,0 +1,8 @@
+- name: Install MySQL client
+  dnf:
+    name: mysql
+    state: present
+
+- name: Load Schema
+  ansible.builtin.shell: mysql -h mysql-dev.devopspro.fun -uroot -pRoboShop@1 < /app/schema/{{ component }}.sql
+
