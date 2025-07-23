@@ -1,0 +1,30 @@
+- name: Add Erlang and RabbitMQ repository
+  shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/{{ item }}/script.rpm.sh | bash
+  args:
+    creates: /etc/yum.repos.d/{{ item }}.repo
+  loop:
+    - erlang
+    - rabbitmq-server
+
+- name: Install rabbitmq-server
+  dnf:
+    name: rabbitmq-server
+    state: present
+
+- name: Enable rabbitmq-server service
+  systemd:
+    name: rabbitmq-server
+    enabled: yes
+    state: started
+
+- name: Add RabbitMQ application user
+  community.rabbitmq.rabbitmq_user:
+    user: roboshop
+    password: roboshop123
+
+
+- name: Set permissions for 'roboshop' user
+  command: rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+
+
+
