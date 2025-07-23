@@ -1,0 +1,21 @@
+- name: Copy MySQL Repo File
+  ansible.builtin.copy:
+    src: mysql.repo
+    dest: /etc/yum.repos.d/mysql.repo
+
+- name: Disable Default version
+  command: dnf module disable mysql -y
+
+- name: Install Mysql Community Server
+  dnf:
+    name: mysql-community-server
+    state: present
+
+- name: Start Mysql  service
+  ansible.builtin.systemd:
+    name: mysqld
+    state: restarted
+    enabled: true
+
+- name: Setup Root Password
+  command: mysql_secure_installation --set-root-pass RoboShop@1

@@ -1,0 +1,19 @@
+- name: Enable Redis module for version 6
+  command: dnf module enable redis:6 -y
+
+- name: Install Redis 6
+  dnf:
+    name: redis
+    state: present
+
+- name: Modify redis configuration
+  ansible.builtin.replace:
+    path: /etc/redis.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+- name: Start Redis Service
+  ansible.builtin.systemd:
+    state: restarted
+    name: redis
+    enabled: true
