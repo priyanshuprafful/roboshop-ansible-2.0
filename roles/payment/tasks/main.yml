@@ -1,3 +1,7 @@
+- name: Setup Hostname
+  ansible.builtin.shell: set-hostname {{ component }}
+
+
 - name: Load NodeJS
   ansible.builtin.import_role:
     name: common
