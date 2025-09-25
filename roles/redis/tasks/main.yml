@@ -1,5 +1,3 @@
-- name: Setup Hostname
-  ansible.builtin.shell: set-hostname {{ component }}
 
 - name: Enable Redis module for version 6
   command: dnf module enable redis:6 -y
