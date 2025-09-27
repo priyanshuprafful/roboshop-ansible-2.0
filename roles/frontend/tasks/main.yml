@@ -49,10 +49,10 @@
 
 
 
-- name: Changing Filebeat yum file to send output to logstash
-  ansible.builtin.template:
-    src: filebeat.yml
-    dest: /etc/filebeat/filebeat.yml
+#- name: Changing Filebeat yum file to send output to logstash
+#  ansible.builtin.template:
+#    src: filebeat.yml
+#    dest: /etc/filebeat/filebeat.yml
 
 - name: Enable and start filebeat service
   ansible.builtin.systemd:
