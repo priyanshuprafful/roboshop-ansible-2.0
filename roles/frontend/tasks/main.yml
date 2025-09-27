@@ -43,13 +43,13 @@
 
 - name: Install File Beat
   ansible.builtin.yum:
-    name: elasticsearch
+    name: filebeat
     state: present
 
 
 - name: Enable and start Elasticsearch service
   ansible.builtin.systemd:
     state: restarted
-    name: elasticsearch
+    name: filebeat
     enabled: true
 
