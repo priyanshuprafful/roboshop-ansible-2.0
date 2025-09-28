@@ -193,7 +193,6 @@ output.logstash:
 # ================================= Processors =================================
 processors:
   - drop_fields:
-      when: equals
       fields: ["agent.ephemeral_id", "agent.hostname", "agent.id", "agent.name", "agent.type", "agent.version"]
       ignore_missing: true
 #  - add_host_metadata:
