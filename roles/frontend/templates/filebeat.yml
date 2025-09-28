@@ -191,11 +191,15 @@ output.logstash:
   #ssl.key: "/etc/pki/client/cert.key"
 
 # ================================= Processors =================================
-#processors:
+processors:
+  - drop_fields:
+      when: equals
+      fields: ["agent.ephemeral_id", "agent.hostname", "agent.id", "agent.name", "agent.type", "agent.version"]
+      ignore_missing: true
 #  - add_host_metadata:
 #      when.not.contains.tags: forwarded
 #  - add_cloud_metadata: ~
-#  - add_docker_metadata: ~       
+#  - add_docker_metadata: ~
 #  - add_kubernetes_metadata: ~
 
     # ================================== Logging ===================================
