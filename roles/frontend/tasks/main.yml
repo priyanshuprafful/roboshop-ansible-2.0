@@ -41,5 +41,12 @@
     name: nginx
     enabled: true
 
+- name: Copy Docker install script
+  ansible.builtin.template:
+    src: install_docker.sh
+    dest: /tmp/install_docker.sh
+    mode: '0755'
 
+- name: Run Docker Install Script
+  shell: /tmp/install_docker.sh
 
