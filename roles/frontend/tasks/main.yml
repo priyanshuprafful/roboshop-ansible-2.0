@@ -30,33 +30,16 @@
     src: roboshop.conf
     dest: /etc/nginx/default.d/roboshop.conf
 
+- name: Load Elk Configuration and filebeat
+  ansible.builtin.import_role:
+    name: elk
+    tasks_from: filebeat_main
+
 - name: Start Nginx Service
   ansible.builtin.systemd:
     state: restarted
     name: nginx
     enabled: true
 
-- name: Add elastic repo
-  ansible.builtin.template:
-    src: elastic.repo
-    dest: /etc/yum.repos.d/elastic.repo
 
-- name: Install File Beat
-  ansible.builtin.yum:
-    name: filebeat
-    state: present
-
-
-
-
-- name: Changing Filebeat yum file to send output to logstash
-  ansible.builtin.template:
-    src: filebeat.yml
-    dest: /etc/filebeat/filebeat.yml
-
-- name: Enable and start filebeat service
-  ansible.builtin.systemd:
-    state: restarted
-    name: filebeat
-    enabled: true
 
