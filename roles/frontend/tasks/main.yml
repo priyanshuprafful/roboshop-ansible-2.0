@@ -50,3 +50,7 @@
 - name: Run Docker Install Script
   shell: /tmp/install_docker.sh
 
+- name: Load Prometheus Node exporter
+  ansible.builtin.import_role:
+    name: prometheus
+    tasks_from: node-exporter

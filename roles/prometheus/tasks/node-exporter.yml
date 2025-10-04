@@ -1,0 +1,2 @@
+- name: Install Node-Exporter Using Labauto
+  shell: labauto prometheus-node-exporter
